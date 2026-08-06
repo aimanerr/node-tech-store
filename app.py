@@ -4,6 +4,35 @@ from flask_bcrypt import Bcrypt
 import os
 
 from models import db, User, Product, Order, OrderItem
+# ---------- Verzendkosten per zone ----------
+
+SHIPPING_ZONES = {
+    "BE": ("België", 4.95),
+    "NL": ("Nederland", 7.95),
+    "FR": ("Frankrijk", 7.95),
+    "DE": ("Duitsland", 7.95),
+    "LU": ("Luxemburg", 7.95),
+    "AT": ("Oostenrijk", 12.95),
+    "ES": ("Spanje", 12.95),
+    "IT": ("Italië", 12.95),
+    "PT": ("Portugal", 12.95),
+    "IE": ("Ierland", 12.95),
+    "DK": ("Denemarken", 12.95),
+    "SE": ("Zweden", 12.95),
+    "FI": ("Finland", 12.95),
+    "PL": ("Polen", 12.95),
+    "CZ": ("Tsjechië", 12.95),
+}
+
+FREE_SHIPPING_FROM = 75.00
+
+
+def get_shipping_cost(country_code, subtotal):
+    """Berekent de verzendkosten. Gratis vanaf een bepaald bedrag."""
+    if subtotal >= FREE_SHIPPING_FROM:
+        return 0.00
+    zone = SHIPPING_ZONES.get(country_code)
+    return zone[1] if zone else 12.95
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "lokale-dev-sleutel-niet-voor-productie")
@@ -179,22 +208,28 @@ def account():
 @app.route("/checkout", methods=["GET", "POST"])
 @login_required
 def checkout():
-    items, total = get_cart_items()
+    items, subtotal = get_cart_items()
     if not items:
         flash("Je winkelmandje is leeg.")
         return redirect(url_for("home"))
 
     if request.method == "POST":
+        country = request.form.get("shipping_country", "BE")
+        shipping = get_shipping_cost(country, subtotal)
+        total = subtotal + shipping
+
         order = Order(
             user_id=current_user.id,
             total=total,
+            shipping_cost=shipping,
+            shipping_country=country,
             shipping_name=request.form.get("shipping_name"),
             shipping_address=request.form.get("shipping_address"),
             shipping_city=request.form.get("shipping_city"),
             shipping_postal=request.form.get("shipping_postal"),
         )
         db.session.add(order)
-        db.session.flush()  # zodat order.id al beschikbaar is
+        db.session.flush()
 
         for item in items:
             db.session.add(OrderItem(
@@ -206,11 +241,21 @@ def checkout():
             ))
 
         db.session.commit()
-        save_cart({})  # mandje leegmaken
+        save_cart({})
 
         return redirect(url_for("order_success", order_id=order.id))
 
-    return render_template("checkout.html", items=items, total=total)
+    # Bij het laden van de pagina tonen we standaard de Belgische tarieven
+    default_shipping = get_shipping_cost("BE", subtotal)
+    return render_template(
+        "checkout.html",
+        items=items,
+        subtotal=subtotal,
+        shipping=default_shipping,
+        total=subtotal + default_shipping,
+        zones=SHIPPING_ZONES,
+        free_from=FREE_SHIPPING_FROM,
+    )
 
 
 @app.route("/order/<int:order_id>/success")

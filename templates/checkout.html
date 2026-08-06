@@ -4,17 +4,36 @@
 <div class="container" style="max-width:820px;">
   <h1>Afrekenen</h1>
 
-  <div style="margin:28px 0; border:1px solid var(--line); padding:20px; border-radius:2px;">
+<div style="margin:28px 0; border:1px solid var(--line); padding:20px; border-radius:2px;">
     {% for item in items %}
     <div style="display:flex; justify-content:space-between; font-size:14px; padding:8px 0;">
       <span>{{ item.qty }} × {{ item.product.name }}</span>
       <span style="font-family:var(--mono);">€ {{ "%.2f"|format(item.subtotal)|replace(".", ",") }}</span>
     </div>
     {% endfor %}
+
+    <div style="display:flex; justify-content:space-between; font-size:14px; padding:8px 0; margin-top:10px; border-top:1px solid var(--line);">
+      <span>Subtotaal</span>
+      <span style="font-family:var(--mono);">€ {{ "%.2f"|format(subtotal)|replace(".", ",") }}</span>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; font-size:14px; padding:8px 0; color:var(--ink-soft);">
+      <span>Verzending</span>
+      <span style="font-family:var(--mono);" id="shipping-line">
+        {% if shipping == 0 %}Gratis{% else %}€ {{ "%.2f"|format(shipping)|replace(".", ",") }}{% endif %}
+      </span>
+    </div>
+
     <div style="display:flex; justify-content:space-between; font-family:var(--grotesk); font-weight:600; font-size:17px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
       <span>Totaal</span>
-      <span>€ {{ "%.2f"|format(total)|replace(".", ",") }}</span>
+      <span id="total-line">€ {{ "%.2f"|format(total)|replace(".", ",") }}</span>
     </div>
+
+    {% if subtotal < free_from %}
+    <p style="font-family:var(--mono); font-size:12px; color:var(--accent); margin-top:14px;">
+      Nog € {{ "%.2f"|format(free_from - subtotal)|replace(".", ",") }} tot gratis verzending
+    </p>
+    {% endif %}
   </div>
 
   <h2>Verzendgegevens</h2>
@@ -30,6 +49,13 @@
 
     <label>Stad</label>
     <input type="text" name="shipping_city" required>
+    <label>Land</label>
+    <select name="shipping_country" required
+            style="width:100%; padding:14px 16px; border:1px solid var(--line); border-radius:2px; font-family:var(--sans); font-size:15px; background:var(--surface); color:var(--ink);">
+      {% for code, zone in zones.items() %}
+      <option value="{{ code }}" {% if code == 'BE' %}selected{% endif %}>{{ zone[0] }}</option>
+      {% endfor %}
+    </select>
 
     <button type="submit" class="btn">Bestelling plaatsen</button>
   </form>
@@ -38,4 +64,22 @@
     Let op: er is nog geen echte betaling gekoppeld — dit plaatst de bestelling voor testdoeleinden. Dat komt in de volgende stap.
   </p>
 </div>
+<script>
+(function(){
+  var zones = {{ zones|tojson }};
+  var subtotal = {{ subtotal }};
+  var freeFrom = {{ free_from }};
+  var select = document.querySelector('select[name="shipping_country"]');
+  var shipLine = document.getElementById('shipping-line');
+  var totalLine = document.getElementById('total-line');
+
+  function euro(n){ return '€ ' + n.toFixed(2).replace('.', ','); }
+
+  select.addEventListener('change', function(){
+    var cost = subtotal >= freeFrom ? 0 : (zones[select.value] ? zones[select.value][1] : 12.95);
+    shipLine.textContent = cost === 0 ? 'Gratis' : euro(cost);
+    totalLine.textContent = euro(subtotal + cost);
+  });
+})();
+</script>
 {% endblock %}

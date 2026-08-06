@@ -17,7 +17,10 @@
       {% for item in order.items %}
       <div style="font-size:14px; padding:4px 0;">{{ item.quantity }} × {{ item.product_name }}</div>
       {% endfor %}
-      <div style="font-family:var(--grotesk); font-weight:600; margin-top:10px;">€ {{ "%.2f"|format(order.total)|replace(".", ",") }}</div>
+      <div style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:8px;">
+        Verzending naar {{ order.shipping_country }}: {% if order.shipping_cost == 0 %}gratis{% else %}€ {{ "%.2f"|format(order.shipping_cost)|replace(".", ",") }}{% endif %}
+      </div>
+      <div style="font-family:var(--grotesk); font-weight:600; margin-top:6px;">€ {{ "%.2f"|format(order.total)|replace(".", ",") }}</div>
     </div>
     {% endfor %}
   {% else %}

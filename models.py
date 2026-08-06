@@ -59,6 +59,8 @@ class Order(db.Model):
     shipping_address = db.Column(db.String(250))
     shipping_city = db.Column(db.String(100))
     shipping_postal = db.Column(db.String(20))
+    shipping_country = db.Column(db.String(2), default="BE")
+    shipping_cost = db.Column(db.Float, default=0.0)
 
     items = db.relationship("OrderItem", backref="order", lazy=True)
 
