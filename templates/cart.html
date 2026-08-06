@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Winkelmandje — NODE.{% endblock %}
+{% block content %}
+<div class="container" style="max-width:800px;">
+  <h1>Je winkelmandje</h1>
+
+  {% if items %}
+    <div style="margin-top:32px; border-top:1px solid var(--line);">
+      {% for item in items %}
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 0; border-bottom:1px solid var(--line);">
+        <div>
+          <div style="font-family:var(--grotesk); font-weight:600;">{{ item.product.name }}</div>
+          <div style="font-family:var(--mono); font-size:13px; color:var(--ink-soft); margin-top:4px;">
+            {{ item.qty }} × € {{ "%.2f"|format(item.product.price)|replace(".", ",") }}
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <div style="font-family:var(--mono);">€ {{ "%.2f"|format(item.subtotal)|replace(".", ",") }}</div>
+          <form method="POST" action="{{ url_for('cart_remove', product_id=item.product.id) }}">
+            <button type="submit" style="background:none; border:none; color:var(--ink-soft); font-family:var(--mono); font-size:12px; cursor:pointer; text-decoration:underline;">verwijderen</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:28px;">
+      <div style="font-family:var(--grotesk); font-weight:600; font-size:20px;">Totaal: € {{ "%.2f"|format(total)|replace(".", ",") }}</div>
+      <a href="{{ url_for('checkout') }}" class="btn">Afrekenen &rarr;</a>
+    </div>
+  {% else %}
+    <p style="color:var(--ink-soft); margin-top:20px;">Je winkelmandje is nog leeg.</p>
+    <a href="{{ url_for('home') }}" class="btn-outline" style="margin-top:20px; display:inline-block;">Verder winkelen</a>
+  {% endif %}
+</div>
+{% endblock %}

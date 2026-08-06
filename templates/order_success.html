@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Bestelling geplaatst — NODE.{% endblock %}
+{% block content %}
+<div class="container" style="max-width:600px; text-align:center;">
+  <div style="font-family:var(--mono); color:var(--accent); font-size:13px; margin-bottom:16px;">BESTELLING #{{ order.id }}</div>
+  <h1>Bedankt voor je bestelling!</h1>
+  <p style="color:var(--ink-soft); margin-top:16px; margin-bottom:32px;">
+    We hebben je bestelling van € {{ "%.2f"|format(order.total)|replace(".", ",") }} ontvangen en gaan ermee aan de slag.
+  </p>
+  <a href="{{ url_for('home') }}" class="btn">Verder winkelen</a>
+</div>
+{% endblock %}

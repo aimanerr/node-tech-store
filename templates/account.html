@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Mijn account — NODE.{% endblock %}
+{% block content %}
+<div class="container" style="max-width:700px;">
+  <h1>Mijn account</h1>
+  <p style="color:var(--ink-soft); margin-top:8px;">Ingelogd als {{ current_user.name }} ({{ current_user.email }})</p>
+
+  <h2 style="margin-top:40px; margin-bottom:16px;">Mijn bestellingen</h2>
+
+  {% if orders %}
+    {% for order in orders %}
+    <div style="border:1px solid var(--line); border-radius:2px; padding:18px 20px; margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; font-family:var(--mono); font-size:13px; color:var(--ink-soft); margin-bottom:10px;">
+        <span>Bestelling #{{ order.id }} — {{ order.created_at.strftime('%d/%m/%Y') }}</span>
+        <span>{{ order.status }}</span>
+      </div>
+      {% for item in order.items %}
+      <div style="font-size:14px; padding:4px 0;">{{ item.quantity }} × {{ item.product_name }}</div>
+      {% endfor %}
+      <div style="font-family:var(--grotesk); font-weight:600; margin-top:10px;">€ {{ "%.2f"|format(order.total)|replace(".", ",") }}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p style="color:var(--ink-soft);">Je hebt nog geen bestellingen geplaatst.</p>
+  {% endif %}
+</div>
+{% endblock %}

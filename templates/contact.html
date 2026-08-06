@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Contact — NODE.{% endblock %}
+{% block content %}
+
+<section style="padding:10vh 6vw 6vh;">
+  <div style="font-family:var(--mono); font-size:13px; color:var(--accent); margin-bottom:20px;">// CONTACT</div>
+  <h1 style="max-width:16ch;">Vraag, klacht of gewoon een idee?</h1>
+</section>
+
+<div class="container" style="padding-top:0; display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1000px;">
+  <div>
+    <p style="color:var(--ink-soft); font-size:16px; line-height:1.7; margin-bottom:32px;">
+      Vul het formulier in en we antwoorden meestal binnen 1 werkdag. Voor dringende vragen over een
+      lopende bestelling, vermeld gerust je bestelnummer.
+    </p>
+    <div style="font-family:var(--mono); font-size:13px; line-height:2.2; color:var(--ink-soft);">
+      <div>E-MAIL &nbsp; hello@nodetech.be</div>
+      <div>REGIO &nbsp; Gent, België</div>
+      <div>UREN &nbsp; Ma–Vr, 9:00–17:00</div>
+    </div>
+  </div>
+
+  <form method="POST">
+    <label>Naam</label>
+    <input type="text" name="name" required>
+
+    <label>E-mailadres</label>
+    <input type="email" name="email" required>
+
+    <label>Bericht</label>
+    <textarea name="message" rows="5" required></textarea>
+
+    <button type="submit" class="btn">Verstuur bericht</button>
+  </form>
+</div>
+
+{% endblock %}

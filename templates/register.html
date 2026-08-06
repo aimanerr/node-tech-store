@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Account maken — NODE.{% endblock %}
+{% block content %}
+<div class="container" style="max-width:420px;">
+  <h1>Account maken</h1>
+  <form method="POST">
+    <label>Naam</label>
+    <input type="text" name="name" required>
+
+    <label>E-mailadres</label>
+    <input type="email" name="email" required>
+
+    <label>Wachtwoord</label>
+    <input type="password" name="password" required minlength="6">
+
+    <button type="submit" class="btn">Account aanmaken</button>
+  </form>
+  <p style="margin-top:20px; font-size:14px; color:var(--ink-soft);">
+    Heb je al een account? <a href="{{ url_for('login') }}" style="color:var(--accent);">Log hier in</a>
+  </p>
+</div>
+{% endblock %}

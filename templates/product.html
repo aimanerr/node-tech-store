@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — NODE.{% endblock %}
+{% block content %}
+<div class="container" style="max-width:900px;">
+  <a href="{{ url_for('home') }}" style="font-family:var(--mono); font-size:13px; color:var(--ink-soft);">&larr; Terug naar shop</a>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:24px;">
+    <div class="card-glyph" style="height:360px;"></div>
+
+    <div>
+      <div class="card-cat" style="margin-bottom:8px;">{{ product.category }}</div>
+      <h1 style="margin-bottom:14px;">{{ product.name }}</h1>
+      <div style="font-family:var(--mono); font-size:20px; margin-bottom:20px;">€ {{ "%.2f"|format(product.price)|replace(".", ",") }}</div>
+      <p style="color:var(--ink-soft); line-height:1.6; margin-bottom:28px;">{{ product.description }}</p>
+
+      {% if product.specs %}
+      <div style="border-top:1px solid var(--line); padding-top:20px; margin-bottom:28px;">
+        {% for label, value in product.specs %}
+        <div style="display:flex; justify-content:space-between; font-family:var(--mono); font-size:13px; padding:8px 0; border-bottom:1px solid var(--line);">
+          <span style="color:var(--ink-soft);">{{ label }}</span>
+          <span>{{ value }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if product.stock > 0 %}
+      <form method="POST" action="{{ url_for('cart_add', product_id=product.id) }}">
+        <button type="submit" class="btn">Toevoegen aan winkelmandje</button>
+      </form>
+      <p style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:12px;">{{ product.stock }} op voorraad</p>
+      {% else %}
+      <p style="font-family:var(--mono); font-size:13px; color:var(--ink-soft);">Momenteel niet op voorraad</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Over ons — NODE.{% endblock %}
+{% block content %}
+
+<section style="padding:10vh 6vw 6vh;">
+  <div style="font-family:var(--mono); font-size:13px; color:var(--accent); margin-bottom:20px;">// OVER ONS</div>
+  <h1 style="max-width:16ch;">Gebouwd door mensen die zelf de spullen gebruiken.</h1>
+</section>
+
+<div class="container" style="padding-top:0; max-width:800px;">
+  <p style="color:var(--ink-soft); font-size:17px; line-height:1.75; margin-bottom:24px;">
+    NODE. is ontstaan uit frustratie: te veel webshops verkopen tech-gadgets die na twee weken kapot zijn,
+    verpakt in marketingtaal die niks zegt over hoe het product écht presteert.
+  </p>
+  <p style="color:var(--ink-soft); font-size:17px; line-height:1.75; margin-bottom:24px;">
+    Wij testen elk product minstens twee weken voor het in de shop komt. Geen dropship-ruis, geen producten
+    die we zelf niet zouden kopen. Enkel wat overblijft na die test krijgt een plek op deze site.
+  </p>
+  <p style="color:var(--ink-soft); font-size:17px; line-height:1.75; margin-bottom:48px;">
+    We zijn een klein, onafhankelijk team gevestigd in België. Elke bestelling wordt vanuit hier verstuurd,
+    en elke vraag die binnenkomt via <a href="{{ url_for('contact') }}" style="color:var(--accent);">contact</a>
+    wordt door een echt mens beantwoord.
+  </p>
+
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:40px;">
+    <div style="background:var(--surface); padding:32px 24px; text-align:center;">
+      <div style="font-family:var(--grotesk); font-weight:700; font-size:32px;">2026</div>
+      <div style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:8px;">OPGERICHT</div>
+    </div>
+    <div style="background:var(--surface); padding:32px 24px; text-align:center;">
+      <div style="font-family:var(--grotesk); font-weight:700; font-size:32px;">2 weken</div>
+      <div style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:8px;">TESTPERIODE PER PRODUCT</div>
+    </div>
+    <div style="background:var(--surface); padding:32px 24px; text-align:center;">
+      <div style="font-family:var(--grotesk); font-weight:700; font-size:32px;">24u</div>
+      <div style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:8px;">VERZENDING VANUIT BE</div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

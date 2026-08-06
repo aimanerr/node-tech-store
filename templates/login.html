@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Inloggen — NODE.{% endblock %}
+{% block content %}
+<div class="container" style="max-width:420px;">
+  <h1>Inloggen</h1>
+  <form method="POST">
+    <label>E-mailadres</label>
+    <input type="email" name="email" required>
+
+    <label>Wachtwoord</label>
+    <input type="password" name="password" required>
+
+    <button type="submit" class="btn">Inloggen</button>
+  </form>
+  <p style="margin-top:20px; font-size:14px; color:var(--ink-soft);">
+    Nog geen account? <a href="{{ url_for('register') }}" style="color:var(--accent);">Maak er een aan</a>
+  </p>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Afrekenen — NODE.{% endblock %}
+{% block content %}
+<div class="container" style="max-width:700px;">
+  <h1>Afrekenen</h1>
+
+  <div style="margin:28px 0; border:1px solid var(--line); padding:20px; border-radius:2px;">
+    {% for item in items %}
+    <div style="display:flex; justify-content:space-between; font-size:14px; padding:8px 0;">
+      <span>{{ item.qty }} × {{ item.product.name }}</span>
+      <span style="font-family:var(--mono);">€ {{ "%.2f"|format(item.subtotal)|replace(".", ",") }}</span>
+    </div>
+    {% endfor %}
+    <div style="display:flex; justify-content:space-between; font-family:var(--grotesk); font-weight:600; font-size:17px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
+      <span>Totaal</span>
+      <span>€ {{ "%.2f"|format(total)|replace(".", ",") }}</span>
+    </div>
+  </div>
+
+  <h2>Verzendgegevens</h2>
+  <form method="POST">
+    <label>Volledige naam</label>
+    <input type="text" name="shipping_name" required>
+
+    <label>Adres</label>
+    <input type="text" name="shipping_address" required>
+
+    <label>Postcode</label>
+    <input type="text" name="shipping_postal" required>
+
+    <label>Stad</label>
+    <input type="text" name="shipping_city" required>
+
+    <button type="submit" class="btn">Bestelling plaatsen</button>
+  </form>
+
+  <p style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:20px;">
+    Let op: er is nog geen echte betaling gekoppeld — dit plaatst de bestelling voor testdoeleinden. Dat komt in de volgende stap.
+  </p>
+</div>
+{% endblock %}
