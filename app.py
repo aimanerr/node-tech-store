@@ -1,12 +1,24 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import Bcrypt
+import os
 
 from models import db, User, Product, Order, OrderItem
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "verander-dit-later-naar-iets-geheims"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///shop.db"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "lokale-dev-sleutel-niet-voor-productie")
+
+# Database: op Render gebruiken we PostgreSQL (via DATABASE_URL),
+# lokaal valt hij automatisch terug op een SQLite-bestand.
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    # Render geeft een URL die begint met "postgres://", maar SQLAlchemy
+    # verwacht "postgresql://" — daarom deze correctie.
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///shop.db"
 
 db.init_app(app)
 bcrypt = Bcrypt(app)
@@ -224,6 +236,22 @@ def contact():
         flash("Bedankt voor je bericht! We nemen zo snel mogelijk contact op.")
         return redirect(url_for("contact"))
     return render_template("contact.html")
+
+
+def setup_database():
+    """Maakt tabellen aan als ze nog niet bestaan, en vult de shop met
+    startproducten als de database nog leeg is. Draait bij elke opstart,
+    maar doet niets als alles er al staat."""
+    db.create_all()
+    if Product.query.count() == 0:
+        from seed_data import STARTER_PRODUCTS
+        db.session.add_all([Product(**p) for p in STARTER_PRODUCTS])
+        db.session.commit()
+        print("Startproducten toegevoegd aan de database.")
+
+
+with app.app_context():
+    setup_database()
 
 
 if __name__ == "__main__":
