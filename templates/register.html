@@ -1,22 +1,27 @@
 {% extends "base.html" %}
 {% block title %}Account maken — NODE.{% endblock %}
 {% block content %}
-<div class="container" style="max-width:420px;">
-  <h1>Account maken</h1>
-  <form method="POST">
-    <label>Naam</label>
-    <input type="text" name="name" required>
+<div class="container" style="max-width:620px;">
+  <div class="form-card">
+    <h1 style="font-size:30px; margin-bottom:6px;">Account maken</h1>
+    <p style="color:var(--ink-soft); font-size:14px;">Zo kan je je bestellingen volgen.</p>
 
-    <label>E-mailadres</label>
-    <input type="email" name="email" required>
+    <form method="POST">
+      <label>Naam</label>
+      <input type="text" name="name" placeholder="Voor- en achternaam" required>
 
-    <label>Wachtwoord</label>
-    <input type="password" name="password" required minlength="6">
+      <label>E-mailadres</label>
+      <input type="email" name="email" placeholder="jij@voorbeeld.be" required>
 
-    <button type="submit" class="btn">Account aanmaken</button>
-  </form>
-  <p style="margin-top:20px; font-size:14px; color:var(--ink-soft);">
-    Heb je al een account? <a href="{{ url_for('login') }}" style="color:var(--accent);">Log hier in</a>
-  </p>
+      <label>Wachtwoord</label>
+      <input type="password" name="password" placeholder="Minstens 6 tekens" required minlength="6">
+
+      <button type="submit" class="btn" style="width:100%;">Account aanmaken</button>
+    </form>
+
+    <p style="margin-top:24px; font-size:14px; color:var(--ink-soft); text-align:center;">
+      Heb je al een account? <a href="{{ url_for('login') }}" style="color:var(--accent);">Log hier in</a>
+    </p>
+  </div>
 </div>
 {% endblock %}

@@ -162,7 +162,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    save_cart({})
+    save_cart({})  # mandje leegmaken zodat de teller klopt na uitloggen
     flash("Je bent uitgelogd.")
     return redirect(url_for("home"))
 

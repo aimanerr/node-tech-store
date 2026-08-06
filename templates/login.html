@@ -1,19 +1,24 @@
 {% extends "base.html" %}
 {% block title %}Inloggen — NODE.{% endblock %}
 {% block content %}
-<div class="container" style="max-width:420px;">
-  <h1>Inloggen</h1>
-  <form method="POST">
-    <label>E-mailadres</label>
-    <input type="email" name="email" required>
+<div class="container" style="max-width:620px;">
+  <div class="form-card">
+    <h1 style="font-size:30px; margin-bottom:6px;">Inloggen</h1>
+    <p style="color:var(--ink-soft); font-size:14px;">Welkom terug bij NODE.</p>
 
-    <label>Wachtwoord</label>
-    <input type="password" name="password" required>
+    <form method="POST">
+      <label>E-mailadres</label>
+      <input type="email" name="email" placeholder="jij@voorbeeld.be" required>
 
-    <button type="submit" class="btn">Inloggen</button>
-  </form>
-  <p style="margin-top:20px; font-size:14px; color:var(--ink-soft);">
-    Nog geen account? <a href="{{ url_for('register') }}" style="color:var(--accent);">Maak er een aan</a>
-  </p>
+      <label>Wachtwoord</label>
+      <input type="password" name="password" placeholder="••••••••" required>
+
+      <button type="submit" class="btn" style="width:100%;">Inloggen</button>
+    </form>
+
+    <p style="margin-top:24px; font-size:14px; color:var(--ink-soft); text-align:center;">
+      Nog geen account? <a href="{{ url_for('register') }}" style="color:var(--accent);">Maak er een aan</a>
+    </p>
+  </div>
 </div>
 {% endblock %}
