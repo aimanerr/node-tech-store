@@ -266,6 +266,20 @@ def order_success(order_id):
         return redirect(url_for("home"))
     return render_template("order_success.html", order=order)
 
+@app.route("/algemene-voorwaarden")
+def terms():
+    return render_template("terms.html")
+
+
+@app.route("/privacybeleid")
+def privacy():
+    return render_template("privacy.html")
+
+
+@app.route("/retourbeleid")
+def returns():
+    return render_template("returns.html")
+
 
 @app.route("/over-ons")
 def about():

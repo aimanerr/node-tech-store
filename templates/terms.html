@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Algemene voorwaarden — NODE.{% endblock %}
+{% block content %}
+
+<section style="padding:10vh 6vw 4vh;">
+  <div style="font-family:var(--mono); font-size:13px; color:var(--accent); margin-bottom:20px;">// JURIDISCH</div>
+  <h1>Algemene voorwaarden</h1>
+  <p style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:12px;">Laatst bijgewerkt: augustus 2026</p>
+</section>
+
+<div class="container" style="padding-top:0; max-width:760px;">
+
+  <div style="background:var(--accent-soft); border:1px solid var(--accent); padding:16px 20px; border-radius:2px; margin-bottom:40px; font-size:14px;">
+    <strong>Let op:</strong> deze tekst is een werkversie en moet nog juridisch nagekeken worden voor de shop opengaat.
+  </div>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">1. Identiteit van de verkoper</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    NODE.<br>
+    Adres: [straat en nummer, postcode, gemeente]<br>
+    E-mail: hello@nodetech.be<br>
+    Ondernemingsnummer: [KBO-nummer]<br>
+    BTW-nummer: [BTW-nummer]
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">2. Toepasselijkheid</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Deze algemene voorwaarden zijn van toepassing op elke bestelling die via deze webshop wordt geplaatst.
+    Door een bestelling te plaatsen aanvaardt de klant deze voorwaarden.
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">3. Prijzen</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Alle prijzen zijn uitgedrukt in euro en inclusief BTW. Verzendkosten worden apart vermeld
+    en berekend op basis van het afleveradres. Vanaf een bestelbedrag van € 75,00 zijn de
+    verzendkosten gratis.
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">4. Bestelling en levering</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Een bestelling komt tot stand op het moment van bevestiging. Wij streven ernaar bestellingen
+    binnen 24 uur na betaling te verzenden. Levertijden zijn indicatief en afhankelijk van de bestemming.
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">5. Herroepingsrecht</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    De consument heeft het recht om binnen 14 kalenderdagen na ontvangst van de bestelling
+    de overeenkomst te herroepen zonder opgave van reden. Zie ons
+    <a href="{{ url_for('returns') }}" style="color:var(--accent);">retourbeleid</a> voor de praktische afhandeling.
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">6. Garantie</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Op alle producten geldt de wettelijke garantie van 2 jaar op conformiteitsgebreken,
+    conform het Belgisch Wetboek van Economisch Recht.
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">7. Toepasselijk recht</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Op deze overeenkomst is het Belgisch recht van toepassing. Geschillen worden voorgelegd
+    aan de bevoegde rechtbanken.
+  </p>
+
+</div>
+
+{% endblock %}

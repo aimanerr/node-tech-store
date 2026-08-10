@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Retourbeleid — NODE.{% endblock %}
+{% block content %}
+
+<section style="padding:10vh 6vw 4vh;">
+  <div style="font-family:var(--mono); font-size:13px; color:var(--accent); margin-bottom:20px;">// JURIDISCH</div>
+  <h1>Retourbeleid</h1>
+  <p style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:12px;">Laatst bijgewerkt: augustus 2026</p>
+</section>
+
+<div class="container" style="padding-top:0; max-width:760px;">
+
+  <div style="background:var(--accent-soft); border:1px solid var(--accent); padding:16px 20px; border-radius:2px; margin-bottom:40px; font-size:14px;">
+    <strong>Let op:</strong> deze tekst is een werkversie en moet nog juridisch nagekeken worden voor de shop opengaat.
+  </div>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">Je hebt 14 dagen bedenktijd</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Als consument heb je het recht om binnen 14 kalenderdagen na ontvangst van je bestelling
+    aan te geven dat je de aankoop wil herroepen, zonder dat je daarvoor een reden hoeft op te geven.
+    Daarna heb je nog eens 14 dagen om het product terug te sturen.
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">Hoe je retourneert</h2>
+  <ol style="color:var(--ink-soft); line-height:1.9; padding-left:20px;">
+    <li>Stuur een e-mail naar hello@nodetech.be met je bestelnummer</li>
+    <li>Je ontvangt van ons de retourinstructies</li>
+    <li>Verpak het product zorgvuldig, bij voorkeur in de originele verpakking</li>
+    <li>Stuur het terug naar het adres dat je van ons kreeg</li>
+  </ol>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">Voorwaarden</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Het product moet in dezelfde staat verkeren als bij ontvangst. Je mag het product uitproberen
+    zoals je in een winkel zou doen, maar bij gebruik dat verder gaat dan nodig om de aard en
+    werking vast te stellen, kunnen we een waardevermindering aanrekenen.
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">Terugbetaling</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Zodra we je retour ontvangen en gecontroleerd hebben, betalen we het aankoopbedrag terug
+    binnen 14 dagen, via dezelfde betaalmethode als bij de aankoop. De oorspronkelijke
+    verzendkosten worden terugbetaald, de kosten van de retourzending zijn voor jouw rekening.
+  </p>
+
+  <h2 style="margin-top:32px; margin-bottom:12px;">Defect of verkeerd product ontvangen?</h2>
+  <p style="color:var(--ink-soft); line-height:1.7;">
+    Dan valt dat niet onder retour maar onder garantie. Neem contact op via
+    <a href="{{ url_for('contact') }}" style="color:var(--accent);">onze contactpagina</a> —
+    we lossen dat op zonder kosten voor jou.
+  </p>
+
+</div>
+
+{% endblock %}

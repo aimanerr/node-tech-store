@@ -100,8 +100,17 @@
 </main>
 
 <footer>
-  NODE. — Tech, zonder de ruis. © 2026
-  <span style="opacity:0; transition:opacity .4s ease; margin-left:8px;" onmouseover="this.style.opacity=1" title="ctrl + `">·</span>
+  <div style="display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-bottom:16px;">
+    <a href="{{ url_for('about') }}" style="color:var(--ink-soft);">Over ons</a>
+    <a href="{{ url_for('contact') }}" style="color:var(--ink-soft);">Contact</a>
+    <a href="{{ url_for('terms') }}" style="color:var(--ink-soft);">Algemene voorwaarden</a>
+    <a href="{{ url_for('privacy') }}" style="color:var(--ink-soft);">Privacybeleid</a>
+    <a href="{{ url_for('returns') }}" style="color:var(--ink-soft);">Retourbeleid</a>
+  </div>
+  <div>
+    NODE. — Tech, zonder de ruis. © 2026
+    <span style="opacity:0; transition:opacity .4s ease; margin-left:8px;" onmouseover="this.style.opacity=1" title="ctrl + `">·</span>
+  </div>
 </footer>
 
 <!-- ============ EASTER EGGS ============ -->
