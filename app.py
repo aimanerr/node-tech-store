@@ -62,7 +62,42 @@ def load_user(user_id):
     return db.session.get(User, int(user_id))
 
 
-# ---------- Hulpfuncties voor het winkelmandje (opgeslagen in de sessie) ----------
+# ---------- Coming soon-modus ----------
+# Zet COMING_SOON=1 in de omgevingsvariabelen om de shop af te schermen.
+# Jijzelf komt binnen via /preview?key=<PREVIEW_KEY>
+
+COMING_SOON = os.environ.get("COMING_SOON", "0") == "1"
+PREVIEW_KEY = os.environ.get("PREVIEW_KEY", "laat-me-binnen")
+
+
+@app.route("/preview")
+def preview():
+    """Geheime ingang: zet een vlag in je sessie zodat jij de site wel ziet."""
+    if request.args.get("key") == PREVIEW_KEY:
+        session["preview"] = True
+        flash("Previewmodus actief — jij ziet de site, bezoekers niet.")
+    return redirect(url_for("home"))
+
+
+@app.route("/preview/uit")
+def preview_off():
+    session.pop("preview", None)
+    return redirect(url_for("home"))
+
+
+@app.before_request
+def block_visitors():
+    """Toont de coming soon-pagina, behalve voor jou en voor statische bestanden."""
+    if not COMING_SOON:
+        return None
+    if session.get("preview"):
+        return None
+    if request.endpoint in ("preview", "static"):
+        return None
+    return render_template("coming_soon.html"), 503
+
+
+# ---------- Hulpfuncties voor het winkelmandje ----------
 
 def get_cart():
     """Haalt het winkelmandje op uit de sessie, als dict {product_id: aantal}."""
