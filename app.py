@@ -168,7 +168,7 @@ def home():
 def product_detail(product_id):
     product = db.session.get(Product, product_id)
     if not product:
-        flash("Product niet gevonden.")
+        flash(translate("product_not_found", current_language()))
         return redirect(url_for("home"))
     return render_template("product.html", product=product)
 
@@ -209,12 +209,12 @@ def register():
         password = request.form.get("password", "")
 
         if not name or not email or not password:
-            flash("Vul alle velden in.")
+            flash(translate("register_fill_all", current_language()))
             return redirect(url_for("register"))
 
         existing = User.query.filter_by(email=email).first()
         if existing:
-            flash("Er bestaat al een account met dit e-mailadres.")
+            flash(translate("register_exists", current_language()))
             return redirect(url_for("register"))
 
         password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
@@ -223,7 +223,7 @@ def register():
         db.session.commit()
 
         login_user(user)
-        flash("Account aangemaakt! Welkom.")
+        flash(translate("register_success", current_language()))
         return redirect(url_for("home"))
 
     return render_template("register.html")
@@ -238,11 +238,11 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password_hash, password):
             login_user(user)
-            flash("Je bent ingelogd.")
+            flash(translate("login_success", current_language()))
             next_page = request.args.get("next")
             return redirect(next_page or url_for("home"))
 
-        flash("E-mailadres of wachtwoord klopt niet.")
+        flash(translate("login_failed", current_language()))
         return redirect(url_for("login"))
 
     return render_template("login.html")
@@ -253,7 +253,7 @@ def login():
 def logout():
     logout_user()
     save_cart({})
-    flash("Je bent uitgelogd.")
+    flash(translate("logout_success", current_language()))
     return redirect(url_for("home"))
 
 
@@ -271,7 +271,7 @@ def account():
 def checkout():
     items, subtotal = get_cart_items()
     if not items:
-        flash("Je winkelmandje is leeg.")
+        flash(translate("cart_is_empty", current_language()))
         return redirect(url_for("home"))
 
     if request.method == "POST":
@@ -354,7 +354,7 @@ def contact():
         # Voorlopig loggen we het bericht gewoon en tonen we een bevestiging.
         name = request.form.get("name", "")
         print(f"[CONTACT] {name} - {request.form.get('email')}: {request.form.get('message')}")
-        flash("Bedankt voor je bericht! We nemen zo snel mogelijk contact op.")
+        flash(translate("contact_thanks", current_language()))
         return redirect(url_for("contact"))
     return render_template("contact.html")
 

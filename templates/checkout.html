@@ -36,15 +36,15 @@
     {% endif %}
   </div>
 
-  <h2>{{ t('checkout_shipping_details') }}</h2>
+  <h2>{{ t('checkout_details') }}</h2>
   <form method="POST">
-    <label>{{ t('checkout_full_name') }}</label>
+    <label>{{ t('checkout_name') }}</label>
     <input type="text" name="shipping_name" required>
 
     <label>{{ t('checkout_address') }}</label>
     <input type="text" name="shipping_address" required>
 
-    <label>{{ t('checkout_postal_code') }}</label>
+    <label>{{ t('checkout_postal') }}</label>
     <input type="text" name="shipping_postal" required>
 
     <label>{{ t('checkout_city') }}</label>
