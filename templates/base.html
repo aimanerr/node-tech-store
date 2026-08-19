@@ -29,6 +29,30 @@
   .nav-right a:hover{color:var(--accent);}
   .cart-badge{font-family:var(--mono);background:var(--ink);color:#fff;border-radius:2px;padding:8px 14px;font-size:13px;}
   .cart-badge:hover{background:var(--accent);}
+ /* Taalkiezer — een segmentschakelaar met glijdende markering */
+  .lang-switch{
+    display:flex;position:relative;
+    border:1px solid var(--line);border-radius:2px;
+    background:var(--surface);overflow:hidden;
+  }
+  .lang-opt{
+    font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+    padding:7px 10px;color:var(--ink-soft);
+    position:relative;z-index:1;transition:color .18s ease;
+  }
+  .lang-opt:hover{color:var(--ink);}
+  .lang-opt.active{color:#fff;}
+  .lang-opt.active::before{
+    content:'';position:absolute;inset:0;z-index:-1;
+    background:var(--accent);
+    animation:langSlide .28s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes langSlide{
+    from{transform:scaleX(.4);opacity:.3;}
+    to{transform:scaleX(1);opacity:1;}
+  }
+  .lang-opt + .lang-opt{border-left:1px solid var(--line);}
+  @media (max-width:520px){.lang-opt{padding:6px 8px;font-size:10px;}} 
 
   .flash{max-width:700px;margin:20px auto 0;padding:0 6vw;}
   .flash div{background:var(--accent-soft);border:1px solid var(--accent);color:var(--ink);font-size:14px;padding:12px 16px;border-radius:2px;margin-bottom:10px;font-family:var(--mono);}
@@ -68,20 +92,28 @@
   <div class="nav-left">
     <a href="{{ url_for('home') }}" class="logo">NODE.<span class="cursor">_</span></a>
     <div class="nav-links">
-      <a href="{{ url_for('home') }}">Shop</a>
-      <a href="{{ url_for('about') }}">Over ons</a>
-      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('home') }}">{{ t('nav_shop') }}</a>
+      <a href="{{ url_for('about') }}">{{ t('nav_about') }}</a>
+      <a href="{{ url_for('contact') }}">{{ t('nav_contact') }}</a>
     </div>
   </div>
-  <div class="nav-right">
+<div class="nav-right">
+    <div class="lang-switch">
+      {% for code, name in languages.items() %}
+      <a href="{{ url_for('set_language', lang_code=code) }}"
+         class="lang-opt {% if code == current_lang %}active{% endif %}"
+         title="{{ name }}">{{ code|upper }}</a>
+      {% endfor %}
+    </div>
+
     {% if current_user.is_authenticated %}
-      <a href="{{ url_for('account') }}">Mijn account</a>
-      <a href="{{ url_for('logout') }}">Uitloggen</a>
+      <a href="{{ url_for('account') }}">{{ t('nav_account') }}</a>
+      <a href="{{ url_for('logout') }}">{{ t('nav_logout') }}</a>
     {% else %}
-      <a href="{{ url_for('login') }}">Inloggen</a>
-      <a href="{{ url_for('register') }}">Account maken</a>
+      <a href="{{ url_for('login') }}">{{ t('nav_login') }}</a>
+      <a href="{{ url_for('register') }}">{{ t('nav_register') }}</a>
     {% endif %}
-    <a href="{{ url_for('cart_view') }}" class="cart-badge">Mandje ({{ cart_count }})</a>
+    <a href="{{ url_for('cart_view') }}" class="cart-badge">{{ t('nav_cart') }} ({{ cart_count }})</a>
   </div>
 </nav>
 
@@ -101,14 +133,14 @@
 
 <footer>
   <div style="display:flex; justify-content:center; gap:24px; flex-wrap:wrap; margin-bottom:16px;">
-    <a href="{{ url_for('about') }}" style="color:var(--ink-soft);">Over ons</a>
-    <a href="{{ url_for('contact') }}" style="color:var(--ink-soft);">Contact</a>
-    <a href="{{ url_for('terms') }}" style="color:var(--ink-soft);">Algemene voorwaarden</a>
-    <a href="{{ url_for('privacy') }}" style="color:var(--ink-soft);">Privacybeleid</a>
-    <a href="{{ url_for('returns') }}" style="color:var(--ink-soft);">Retourbeleid</a>
+    <a href="{{ url_for('about') }}" style="color:var(--ink-soft);">{{ t('nav_about') }}</a>
+    <a href="{{ url_for('contact') }}" style="color:var(--ink-soft);">{{ t('nav_contact') }}</a>
+    <a href="{{ url_for('terms') }}" style="color:var(--ink-soft);">{{ t('footer_terms') }}</a>
+    <a href="{{ url_for('privacy') }}" style="color:var(--ink-soft);">{{ t('footer_privacy') }}</a>
+    <a href="{{ url_for('returns') }}" style="color:var(--ink-soft);">{{ t('footer_returns') }}</a>
   </div>
   <div>
-    NODE. — Tech, zonder de ruis. © 2026
+    NODE. — {{ t('footer_tagline') }} © 2026
     <span style="opacity:0; transition:opacity .4s ease; margin-left:8px;" onmouseover="this.style.opacity=1" title="ctrl + `">·</span>
   </div>
 </footer>

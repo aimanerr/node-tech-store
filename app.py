@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 import os
 
 from models import db, User, Product, Order, OrderItem
+from translations import translate, LANGUAGES, DEFAULT_LANGUAGE
 # ---------- Verzendkosten per zone ----------
 
 SHIPPING_ZONES = {
@@ -61,6 +62,31 @@ login_manager.login_message = "Log eerst in om verder te gaan."
 def load_user(user_id):
     return db.session.get(User, int(user_id))
 
+
+
+# ---------- Taalkeuze ----------
+
+@app.route("/taal/<lang_code>")
+def set_language(lang_code):
+    """Wisselt van taal en stuurt je terug naar waar je was."""
+    if lang_code in LANGUAGES:
+        session["lang"] = lang_code
+    return redirect(request.referrer or url_for("home"))
+
+
+def current_language():
+    return session.get("lang", DEFAULT_LANGUAGE)
+
+
+@app.context_processor
+def inject_translations():
+    """Maakt t() en de taallijst beschikbaar in élk template."""
+    lang = current_language()
+    return {
+        "t": lambda key, **kw: translate(key, lang, **kw),
+        "current_lang": lang,
+        "languages": LANGUAGES,
+    }
 
 # ---------- Coming soon-modus ----------
 # Zet COMING_SOON=1 in de omgevingsvariabelen om de shop af te schermen.
@@ -155,7 +181,7 @@ def cart_add(product_id):
     key = str(product_id)
     cart[key] = cart.get(key, 0) + 1
     save_cart(cart)
-    flash("Product toegevoegd aan je winkelmandje.")
+    flash(translate("product_added", current_language()))
     return redirect(request.referrer or url_for("home"))
 
 

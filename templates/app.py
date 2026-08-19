@@ -2,8 +2,9 @@ from flask import Flask, render_template, redirect, url_for, request, session, f
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import Bcrypt
 import os
-
+from app import current_language
 from models import db, User, Product, Order, OrderItem
+from translations import translate, LANGUAGES, DEFAULT_LANGUAGE
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "lokale-dev-sleutel-niet-voor-productie")
@@ -78,7 +79,7 @@ def home():
 def product_detail(product_id):
     product = db.session.get(Product, product_id)
     if not product:
-        flash("Product niet gevonden.")
+        flash(translate("product_not_found", current_language()))
         return redirect(url_for("home"))
     return render_template("product.html", product=product)
 
@@ -91,7 +92,7 @@ def cart_add(product_id):
     key = str(product_id)
     cart[key] = cart.get(key, 0) + 1
     save_cart(cart)
-    flash("Product toegevoegd aan je winkelmandje.")
+    flash(translate("product_added", current_language()))
     return redirect(request.referrer or url_for("home"))
 
 

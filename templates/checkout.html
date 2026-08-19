@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Afrekenen — NODE.{% endblock %}
+{% block title %}{{ t('checkout_title') }} — NODE.{% endblock %}
 {% block content %}
 <div class="container" style="max-width:820px;">
-  <h1>Afrekenen</h1>
+  <h1>{{ t('checkout_title') }}</h1>
 
 <div style="margin:28px 0; border:1px solid var(--line); padding:20px; border-radius:2px;">
     {% for item in items %}
@@ -13,19 +13,19 @@
     {% endfor %}
 
     <div style="display:flex; justify-content:space-between; font-size:14px; padding:8px 0; margin-top:10px; border-top:1px solid var(--line);">
-      <span>Subtotaal</span>
+      <span>{{ t('checkout_subtotal') }}</span>
       <span style="font-family:var(--mono);">€ {{ "%.2f"|format(subtotal)|replace(".", ",") }}</span>
     </div>
 
     <div style="display:flex; justify-content:space-between; font-size:14px; padding:8px 0; color:var(--ink-soft);">
-      <span>Verzending</span>
+      <span>{{ t('checkout_shipping') }}</span>
       <span style="font-family:var(--mono);" id="shipping-line">
         {% if shipping == 0 %}Gratis{% else %}€ {{ "%.2f"|format(shipping)|replace(".", ",") }}{% endif %}
       </span>
     </div>
 
     <div style="display:flex; justify-content:space-between; font-family:var(--grotesk); font-weight:600; font-size:17px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
-      <span>Totaal</span>
+      <span>{{ t('checkout_total') }}</span>
       <span id="total-line">€ {{ "%.2f"|format(total)|replace(".", ",") }}</span>
     </div>
 
@@ -36,20 +36,20 @@
     {% endif %}
   </div>
 
-  <h2>Verzendgegevens</h2>
+  <h2>{{ t('checkout_shipping_details') }}</h2>
   <form method="POST">
-    <label>Volledige naam</label>
+    <label>{{ t('checkout_full_name') }}</label>
     <input type="text" name="shipping_name" required>
 
-    <label>Adres</label>
+    <label>{{ t('checkout_address') }}</label>
     <input type="text" name="shipping_address" required>
 
-    <label>Postcode</label>
+    <label>{{ t('checkout_postal_code') }}</label>
     <input type="text" name="shipping_postal" required>
 
-    <label>Stad</label>
+    <label>{{ t('checkout_city') }}</label>
     <input type="text" name="shipping_city" required>
-    <label>Land</label>
+    <label>{{ t('checkout_country') }}</label>
     <select name="shipping_country" required
             style="width:100%; padding:14px 16px; border:1px solid var(--line); border-radius:2px; font-family:var(--sans); font-size:15px; background:var(--surface); color:var(--ink);">
       {% for code, zone in zones.items() %}
